@@ -31,9 +31,13 @@ INSTALLED_APPS = [
 
     # Trusted apps
     'rest_framework',
+    'rest_framework_simplejwt',
+    'django_filters',
 
     # myapps
     'blog',
+
+    # Third-party apps
 ]
 
 MIDDLEWARE = [
@@ -63,6 +67,12 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 WSGI_APPLICATION = 'toystore.wsgi.application'
 
