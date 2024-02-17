@@ -26,7 +26,7 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     # permission_classes = [permissions.IsAuthenticated]
-    queryset = ProductComment.objects.filter(is_active=True).order_by('-pk')
+    queryset = ProductComment.objects.filter(is_approved=True).order_by('-pk')
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
     filterset_fields = ('id', 'product', 'author')
     search_fields = ('author', 'product', 'description')
