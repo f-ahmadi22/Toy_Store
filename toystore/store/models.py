@@ -53,3 +53,19 @@ class ProductComment(BaseModel):
 
     def __str__(self):
         return self.author
+
+
+class ProductMedia(BaseModel):
+    product = models.ForeignKey(Product, related_name='media', on_delete=models.CASCADE, verbose_name="product")
+    media_choices = [('image', 'image'), ('video', 'video')]  # 'image' or 'video'
+    media_type = models.CharField(max_length=20, choices=media_choices, null=False, blank=False,
+                                  verbose_name="media_type")
+    media_file = models.FileField(upload_to='media/store/')
+
+    class Meta:
+        verbose_name = "ProductMedia"
+        verbose_name_plural = "ProductMedia"
+        ordering = ['id']
+
+    def __str__(self):
+        return self.media_type
