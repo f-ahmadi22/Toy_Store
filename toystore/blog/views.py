@@ -23,3 +23,13 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
     filterset_fields = ('id', 'category')
     search_fields = ('title', 'description')
 
+
+class CommentViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = CommentSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+    queryset = Comment.objects.filter(is_active=True).order_by('-pk')
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
+    filterset_fields = ('id', 'post', 'author')
+    search_fields = ('author', 'post', 'description')
+
+
