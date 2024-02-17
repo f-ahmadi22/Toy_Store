@@ -1,6 +1,5 @@
-from typing import Tuple
-
 from django.shortcuts import render
+from rest_framework.views import APIView
 from rest_framework import viewsets, status, filters, permissions
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Post, Comment, Category, Media
@@ -24,7 +23,7 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
     search_fields = ('title', 'description')
 
 
-class CommentViewSet(viewsets.ReadOnlyModelViewSet):
+class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     # permission_classes = [permissions.IsAuthenticated]
     queryset = Comment.objects.filter(is_active=True).order_by('-pk')
