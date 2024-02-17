@@ -41,7 +41,7 @@ class Post(MyBaseModel):
 
 
 class Comment(MyBaseModel):
-    post = models.ForeignKey(Post, related_name="comments", on_delete=models, verbose_name="post")
+    post = models.ForeignKey(Post, related_name="comments", on_delete=models.CASCADE, verbose_name="post")
     author = models.CharField(max_length=250, null=False, blank=False, verbose_name="author")
     content = models.TextField(null=False, blank=False, verbose_name="content")
     is_approved = models.BooleanField(default=False, verbose_name="is_approved")
