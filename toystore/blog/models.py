@@ -58,7 +58,8 @@ class Comment(MyBaseModel):
 class Media(MyBaseModel):
     post = models.ForeignKey(Post, related_name='media', on_delete=models.CASCADE, verbose_name="post")
     media_choices = [('image', 'image'), ('video', 'video')]  # 'image' or 'video'
-    media_type = models.CharField(max_length=20, choices=media_choices, null=False, blank=False, verbose_name="media_type")
+    media_type = models.CharField(max_length=20, choices=media_choices, null=False, blank=False,
+                                  verbose_name="media_type")
     media_file = models.FileField(upload_to='media/blog/')
 
     class Meta:
