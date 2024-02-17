@@ -28,3 +28,19 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Media(models.Model):
+    post = models.ForeignKey(Post, related_name='media', on_delete=models.CASCADE, verbose_name="post")
+    # 'image' or 'video'
+    media_type = models.CharField(max_length=20, null=False, blank=False, verbose_name="media_type")
+    media_file = models.FileField(upload_to='media/blog/')
+
+    class Meta:
+        verbose_name = "Media"
+        verbose_name_plural = "Media"
+        ordering = ['id']
+
+    def __str__(self):
+        return self.media_type
+    
