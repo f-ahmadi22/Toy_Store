@@ -3,7 +3,17 @@ from django.db import models
 # Create your models here.
 
 
-class Category(models.Model):
+class MyBaseModel(models.Model):
+    is_active = models.BooleanField(default=False, verbose_name='Is active')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Updated at')
+
+    class Meta:
+        abstract = True
+        ordering = ['pk']
+
+
+class Category(MyBaseModel):
     title = models.CharField(max_length=250, unique=True, null=False, blank=False, verbose_name="title")
     description = models.TextField(null=False, blank=False, verbose_name="description")
 
@@ -16,7 +26,7 @@ class Category(models.Model):
         return self.title
 
 
-class Post(models.Model):
+class Post(MyBaseModel):
     title = models.CharField(max_length=250, null=False, blank=False, verbose_name="title")
     description = models.TextField(null=False, blank=False, verbose_name="description")
     category = models.ForeignKey(Category, related_name="posts", on_delete=models.CASCADE, verbose_name="category")
@@ -30,7 +40,22 @@ class Post(models.Model):
         return self.title
 
 
-class Media(models.Model):
+class Comment(MyBaseModel):
+    post = models.ForeignKey(Post, related_name="comments", on_delete=models, verbose_name="post")
+    author = models.CharField(max_length=250, null=False, blank=False, verbose_name="author")
+    content = models.TextField(null=False, blank=False, verbose_name="content")
+    is_approved = models.BooleanField(default=False, verbose_name="is_approved")
+
+    class Meta:
+        verbose_name = "Comment"
+        verbose_name_plural = "Comments"
+        ordering = ['id']
+
+    def __str__(self):
+        return self.author
+
+
+class Media(MyBaseModel):
     post = models.ForeignKey(Post, related_name='media', on_delete=models.CASCADE, verbose_name="post")
     # 'image' or 'video'
     media_type = models.CharField(max_length=20, null=False, blank=False, verbose_name="media_type")
@@ -43,4 +68,3 @@ class Media(models.Model):
 
     def __str__(self):
         return self.media_type
-    
