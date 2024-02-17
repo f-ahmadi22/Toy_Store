@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import Category, Post, Comment, Media
+from .models import BlogCategory, Post, BlogComment, BlogMedia
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Category
+        model = BlogCategory
         fields = ['id', 'title', 'description', 'created_at', 'updated_at']
 
 
@@ -18,11 +18,11 @@ class PostSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Comment
+        model = BlogComment
         fields = ['id', 'author', 'post', 'content', 'created_at', 'updated_at']
 
 
 class MediaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Media
+        model = BlogMedia
         fields = '__all__'

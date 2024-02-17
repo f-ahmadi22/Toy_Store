@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.contrib.admin import register
-from .models import Category, Post, Comment, Media
+from .models import BlogCategory, Post, BlogComment, BlogMedia
 # Register your models here.
 
 
-@register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+@register(BlogCategory)
+class BlogCategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'description', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'title', 'description')
     list_filter = ('is_active',)
@@ -22,8 +22,8 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ('title', 'description', 'category__title', 'category__description')
 
 
-@register(Comment)
-class CommentAdmin(admin.ModelAdmin):
+@register(BlogComment)
+class BlogCommentAdmin(admin.ModelAdmin):
     list_display = ('id', 'post', 'author', 'content', 'is_approved', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'post', 'author', 'content',)
     list_filter = ('post', 'post__category', 'author', 'is_approved', 'is_active')
@@ -31,8 +31,8 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ('post__title', 'post__category', 'content', 'author')
 
 
-@register(Media)
-class MediaAdmin(admin.ModelAdmin):
+@register(BlogMedia)
+class BlogMediaAdmin(admin.ModelAdmin):
     list_display = ('id', 'post', 'media_type', 'media_file', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'post', 'media_type')
     list_filter = ('media_type', 'is_active',)

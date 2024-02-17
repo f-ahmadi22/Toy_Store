@@ -13,13 +13,13 @@ class MyBaseModel(models.Model):
         ordering = ['pk']
 
 
-class Category(MyBaseModel):
+class BlogCategory(MyBaseModel):
     title = models.CharField(max_length=250, unique=True, null=False, blank=False, verbose_name="title")
     description = models.TextField(null=False, blank=False, verbose_name="description")
 
     class Meta:
-        verbose_name = "Category"
-        verbose_name_plural = "Categories"
+        verbose_name = "BlogCategory"
+        verbose_name_plural = "BlogCategories"
         ordering = ['id']
 
     def __str__(self):
@@ -29,7 +29,7 @@ class Category(MyBaseModel):
 class Post(MyBaseModel):
     title = models.CharField(max_length=250, null=False, blank=False, verbose_name="title")
     description = models.TextField(null=False, blank=False, verbose_name="description")
-    category = models.ForeignKey(Category, related_name="posts", on_delete=models.CASCADE, verbose_name="category")
+    category = models.ForeignKey(BlogCategory, related_name="posts", on_delete=models.CASCADE, verbose_name="category")
 
     class Meta:
         verbose_name = "Post"
@@ -40,22 +40,22 @@ class Post(MyBaseModel):
         return self.title
 
 
-class Comment(MyBaseModel):
+class BlogComment(MyBaseModel):
     post = models.ForeignKey(Post, related_name="comments", on_delete=models.CASCADE, verbose_name="post")
     author = models.CharField(max_length=250, null=False, blank=False, verbose_name="author")
     content = models.TextField(null=False, blank=False, verbose_name="content")
     is_approved = models.BooleanField(default=False, verbose_name="is_approved")
 
     class Meta:
-        verbose_name = "Comment"
-        verbose_name_plural = "Comments"
+        verbose_name = "BlogComment"
+        verbose_name_plural = "BlogComments"
         ordering = ['id']
 
     def __str__(self):
         return self.author
 
 
-class Media(MyBaseModel):
+class BlogMedia(MyBaseModel):
     post = models.ForeignKey(Post, related_name='media', on_delete=models.CASCADE, verbose_name="post")
     media_choices = [('image', 'image'), ('video', 'video')]  # 'image' or 'video'
     media_type = models.CharField(max_length=20, choices=media_choices, null=False, blank=False,
