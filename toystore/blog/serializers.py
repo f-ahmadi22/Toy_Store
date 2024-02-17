@@ -5,19 +5,21 @@ from .models import Category, Post, Comment, Media
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ['id', 'title', 'description', 'created_at', 'updated_at']
 
 
 class PostSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
+
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = ['id', 'title', 'description', 'category', 'created_at', 'updated_at']
 
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['id', 'author', 'post', 'content', 'is_active', 'created_at', 'updated_at']
+        fields = ['id', 'author', 'post', 'content', 'created_at', 'updated_at']
 
 
 class MediaSerializer(serializers.ModelSerializer):
