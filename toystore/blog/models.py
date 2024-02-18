@@ -72,8 +72,23 @@ class BlogMedia(MyBaseModel):
     def __str__(self):
         return self.media_type
 
-#    def get_images(self, post):
+    @staticmethod
+    def get_images(post):
+        """
+        Get images related to the given post.
+        """
+        return BlogMedia.objects.filter(post=post, media_type='image')
 
-#    def get_videos(self, post):
+    @staticmethod
+    def get_videos(post):
+        """
+        Get videos related to the given post.
+        """
+        return BlogMedia.objects.filter(post=post, media_type='video')
 
-#    def get audios(self, post):
+    @staticmethod
+    def get_audios(post):
+        """
+        Get videos related to the given post.
+        """
+        return BlogMedia.objects.filter(post=post, media_type='audio')

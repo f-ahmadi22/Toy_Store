@@ -62,7 +62,6 @@ class ProductComment(BaseModel):
 class ProductMedia(BaseModel):
     MEDIA_TYPES = ('image', 'video', 'audio')
     product = models.ForeignKey(Product, related_name='media', on_delete=models.CASCADE, verbose_name="product")
-    media_choices = [('image', 'image'), ('video', 'video')]  # 'image' or 'video'
     media_type = models.CharField(max_length=20, choices=MEDIA_TYPES, null=False, blank=False,
                                   verbose_name="media_type")
     media_file = models.FileField(upload_to='media/store/')
@@ -74,3 +73,24 @@ class ProductMedia(BaseModel):
 
     def __str__(self):
         return self.media_type
+
+    @staticmethod
+    def get_images(product):
+        """
+        Get images related to the given post.
+        """
+        return ProductMedia.objects.filter(product=product, media_type='image')
+
+    @staticmethod
+    def get_videos(product):
+        """
+        Get videos related to the given post.
+        """
+        return ProductMedia.objects.filter(product=product, media_type='video')
+
+    @staticmethod
+    def get_audios(product):
+        """
+        Get audios related to the given post.
+        """
+        return ProductMedia.objects.filter(product=product, media_type='audio')
