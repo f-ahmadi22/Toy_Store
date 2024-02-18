@@ -25,10 +25,14 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = BlogComment.objects.filter(is_active=True).order_by('-pk')
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
     filterset_fields = ('id', 'post', 'author')
     search_fields = ('author', 'post', 'description')
+
+    # Override the perform_create method to set the current user as the comment author
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 
