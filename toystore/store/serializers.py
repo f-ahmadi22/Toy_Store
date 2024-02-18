@@ -20,6 +20,7 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductComment
         fields = ['id', 'author', 'product', 'content', 'created_at', 'updated_at']
+        read_only_fields = ['author']
 
 
 class MediaSerializer(serializers.ModelSerializer):
