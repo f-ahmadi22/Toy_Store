@@ -9,8 +9,8 @@ from .serializers import CategorySerializer, PostSerializer, CommentSerializer, 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
-    queryset = BlogCategory.objects.filter(is_active=True).order_by('-pk')
     # permission_classes = [permissions.IsAuthenticated]
+    queryset = BlogCategory.objects.filter(is_active=True).order_by('-pk')
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
 
 
@@ -26,7 +26,7 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     # permission_classes = [permissions.IsAuthenticated]
-    queryset = BlogComment.objects.filter(is_approved=True).order_by('-pk')
+    queryset = BlogComment.objects.filter(is_active=True).order_by('-pk')
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
     filterset_fields = ('id', 'post', 'author')
     search_fields = ('author', 'post', 'description')

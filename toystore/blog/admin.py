@@ -24,10 +24,10 @@ class PostAdmin(admin.ModelAdmin):
 
 @register(BlogComment)
 class BlogCommentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'post', 'author', 'content', 'is_approved', 'is_active', 'created_at', 'updated_at')
+    list_display = ('id', 'post', 'author', 'content', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'post', 'author', 'content',)
-    list_filter = ('post', 'post__category', 'author', 'is_approved', 'is_active')
-    list_editable = ('is_active', 'is_approved')
+    list_filter = ('post', 'post__category', 'author', 'is_active')
+    list_editable = ('is_active', )
     search_fields = ('post__title', 'post__category', 'content', 'author')
 
 

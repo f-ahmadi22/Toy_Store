@@ -24,10 +24,10 @@ class ProductAdmin(admin.ModelAdmin):
 
 @register(ProductComment)
 class ProductCommentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product', 'author', 'content', 'is_approved', 'is_active', 'created_at', 'updated_at')
+    list_display = ('id', 'product', 'author', 'content', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'product', 'author', 'content',)
-    list_filter = ('product', 'product__category', 'author', 'is_approved', 'is_active')
-    list_editable = ('is_active', 'is_approved')
+    list_filter = ('product', 'product__category', 'author', 'is_active')
+    list_editable = ('is_active',)
     search_fields = ('product__title', 'product__category', 'content', 'author')
 
 
