@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     # myapps
     'blog',
     'store',
+    'cart',
 
     # Third-party apps
 ]
