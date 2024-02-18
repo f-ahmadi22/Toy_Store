@@ -35,9 +35,9 @@ INSTALLED_APPS = [
     'django_filters',
 
     # myapps
-    'blog',
-    'store',
-    'cart',
+    'blog.apps.BlogConfig',
+    'store.apps.StoreConfig',
+    'cart.apps.CartConfig',
 
     # Third-party apps
 ]

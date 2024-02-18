@@ -58,4 +58,3 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Must include 'email' and 'password'.")
 
         return data
-    

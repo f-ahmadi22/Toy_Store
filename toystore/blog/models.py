@@ -68,3 +68,5 @@ class BlogMedia(MyBaseModel):
 
     def __str__(self):
         return self.media_type
+
+#    def get_images(self,post):

@@ -28,7 +28,7 @@ class ProductCategory(BaseModel):
 class Product(BaseModel):
     title = models.CharField(max_length=250, null=False, blank=False, verbose_name="title")
     description = models.TextField(null=False, blank=False, verbose_name="description")
-    price = models.IntegerField(null=False, blank=False, verbose_name="price")
+
     category = models.ForeignKey(ProductCategory, related_name="posts", on_delete=models.CASCADE, verbose_name="category")
 
     class Meta:
@@ -38,6 +38,8 @@ class Product(BaseModel):
 
     def __str__(self):
         return self.title
+
+# TODO : Implement Product price,  last price
 
 
 class ProductComment(BaseModel):
