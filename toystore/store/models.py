@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 # Create your models here.
 
 
@@ -44,7 +47,7 @@ class Product(BaseModel):
 
 class ProductComment(BaseModel):
     product = models.ForeignKey(Product, related_name="comments", on_delete=models.CASCADE, verbose_name="product")
-    author = models.CharField(max_length=250, null=False, blank=False, verbose_name="author")
+    author = models.ForeignKey(User, null=False, blank=False, verbose_name="author", on_delete=models.CASCADE)
     content = models.TextField(null=False, blank=False, verbose_name="content")
 
     class Meta:
@@ -57,9 +60,10 @@ class ProductComment(BaseModel):
 
 
 class ProductMedia(BaseModel):
+    MEDIA_TYPES = ('image', 'video', 'audio')
     product = models.ForeignKey(Product, related_name='media', on_delete=models.CASCADE, verbose_name="product")
     media_choices = [('image', 'image'), ('video', 'video')]  # 'image' or 'video'
-    media_type = models.CharField(max_length=20, choices=media_choices, null=False, blank=False,
+    media_type = models.CharField(max_length=20, choices=MEDIA_TYPES, null=False, blank=False,
                                   verbose_name="media_type")
     media_file = models.FileField(upload_to='media/store/')
 
