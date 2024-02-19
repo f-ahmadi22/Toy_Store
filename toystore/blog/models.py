@@ -58,7 +58,7 @@ class BlogComment(MyBaseModel):
 
 
 class BlogMedia(MyBaseModel):
-    MEDIA_TYPES = ('image', 'video', 'audio')
+    MEDIA_TYPES = [('image', 'image'), ('video', 'video'), ('audio', 'audio')]
     post = models.ForeignKey(Post, related_name='media', on_delete=models.CASCADE, verbose_name="post")
     media_type = models.CharField(max_length=20, choices=MEDIA_TYPES, null=False, blank=False,
                                   verbose_name="media_type")
