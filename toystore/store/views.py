@@ -10,13 +10,11 @@ from .serializers import CategorySerializer, ProductSerializer, CommentSerialize
 class ProductCategoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
     queryset = ProductCategory.objects.filter(is_active=True).order_by('-pk')
-    # permission_classes = [permissions.IsAuthenticated]
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
 
 
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ProductSerializer
-    # permission_classes = [permissions.IsAuthenticated]
     queryset = Product.objects.filter(is_active=True).order_by('-pk')
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
     filterset_fields = ('id', 'category')
