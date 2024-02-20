@@ -12,7 +12,6 @@ User = get_user_model()
 class Cart(MyBaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart', null=False, blank=False,
                              verbose_name='user')
-    is_paid = models.BooleanField(default=False, verbose_name='Is paid')
 
     def __str__(self):
         return self.user

@@ -6,8 +6,8 @@ from .models import Cart, CartProduct
 
 @register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'is_paid', 'is_active', 'created_at', 'updated_at')
-    list_display_links = ('id', 'user', 'is_paid')
+    list_display = ('id', 'user', 'is_active', 'created_at', 'updated_at')
+    list_display_links = ('id', 'user',)
     list_filter = ('user', 'is_active')
     list_editable = ('is_active',)
     search_fields = ('user__username',)
