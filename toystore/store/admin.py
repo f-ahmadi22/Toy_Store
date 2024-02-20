@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import register
-from .models import ProductCategory, Product, ProductComment, ProductMedia
+from .models import ProductCategory, Product, ProductComment, ProductMedia, ProductPrice
 # Register your models here.
 
 
@@ -20,6 +20,15 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('category',)
     list_editable = ('is_active',)
     search_fields = ('title', 'description', 'category__title', 'category__description')
+
+
+@register(ProductPrice)
+class ProductPrice(admin.ModelAdmin):
+    list_display = ('id', 'product', 'price', 'is_active', 'created_at', 'updated_at')
+    list_display_links = ('id', 'product', 'price')
+    list_filter = ('product', 'product__category', 'is_active')
+    list_editable = ('is_active',)
+    search_fields = ('product__title', 'product__category',)
 
 
 @register(ProductComment)
