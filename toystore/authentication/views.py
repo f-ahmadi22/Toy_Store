@@ -15,27 +15,26 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
 
 
-class SignupAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
-
-    @staticmethod
-    def post(request):
-        serializer = SignupSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            token = user.tokens()['refresh_token']
-            return Response({'token': token.key}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 class LoginAPIView(APIView):
     permission_classes = [permissions.AllowAny]
 
-    @staticmethod
-    def post(request):
+    def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.validated_data['user']
-            token = user.tokens()['refresh_token']
-            return Response({'token': token.key}, status=status.HTTP_200_OK)
+            token, _ = Token.objects.get_or_create(user=user)
+            print(token)
+            return Response({'token': token.key, 'user': UserSerializer(user).data}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SignupAPIView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        serializer = SignupSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response({'token': token.key, 'user': UserSerializer(user).data}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

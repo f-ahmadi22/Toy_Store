@@ -7,7 +7,7 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('id', 'username')
 
 
 class LoginSerializer(serializers.Serializer):
@@ -18,25 +18,20 @@ class LoginSerializer(serializers.Serializer):
         username = data.get('username')
         password = data.get('password')
 
-        if username and password:
-            user = authenticate(username=username, password=password)
-            if user:
-                if not user.is_active:
-                    raise serializers.ValidationError("User account is disabled.")
-                data['user'] = user
-            else:
-                raise serializers.ValidationError("Unable to log in with provided credentials.")
-        else:
-            raise serializers.ValidationError("Must include 'username' and 'password'.")
+        user = authenticate(username=username, password=password)
+        if not user:
+            raise serializers.ValidationError('Invalid username or password')
 
+        data['user'] = user
         return data
 
 
 class SignupSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
-        fields = ['username', 'password']
+        fields = ('username', 'password')
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
