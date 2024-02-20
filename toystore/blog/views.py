@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import viewsets, status, filters, permissions
+from rest_framework import viewsets, status, filters, permissions, authentication
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Post, BlogComment, BlogCategory, BlogMedia
 from .serializers import CategorySerializer, PostSerializer, CommentSerializer, MediaSerializer
@@ -22,6 +22,7 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
+    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = BlogComment.objects.filter(is_active=True).order_by('-pk')
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)

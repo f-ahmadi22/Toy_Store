@@ -16,7 +16,6 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class LoginAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
 
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
@@ -29,7 +28,6 @@ class LoginAPIView(APIView):
 
 
 class SignupAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
 
     def post(self, request):
         serializer = SignupSerializer(data=request.data)

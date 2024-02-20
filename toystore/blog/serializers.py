@@ -9,15 +9,39 @@ User = get_user_model()
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = BlogCategory
-        fields = ['id', 'title', 'description', 'created_at', 'updated_at']
+        fields = ['id', 'title', 'description', 'thumbnail', 'created_at', 'updated_at']
 
 
 class PostSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(read_only=True)
+    images = serializers.SerializerMethodField()
+    videos = serializers.SerializerMethodField()
+    audios = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'description', 'category', 'created_at', 'updated_at']
+        fields = ['id', 'title', 'description', 'category', 'thumbnail', 'images', 'videos', 'audios']
+
+    def get_images(self, obj):
+        """
+        Get serialized images related to the given post.
+        """
+        images = obj.get_images()
+        images_list = MediaSerializer(images, many=True).data
+        return [image.media_file.url for image in images_list]
+
+    def get_videos(self, obj):
+        """
+        Get serialized videos related to the given post.
+        """
+        videos = obj.get_videos()
+        return [video.media_file.url for video in videos]
+
+    def get_audios(self, obj):
+        """
+        Get serialized audios related to the given post.
+        """
+        audios = obj.get_audios()
+        return [audio.media_file.url for audio in audios]
 
 
 class CommentSerializer(serializers.ModelSerializer):
