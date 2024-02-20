@@ -1,21 +1,11 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-
+from blog.models import MyBaseModel
 User = get_user_model()
 # Create your models here.
 
 
-class BaseModel(models.Model):
-    is_active = models.BooleanField(default=False, verbose_name='Is active')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Updated at')
-
-    class Meta:
-        abstract = True
-        ordering = ['pk']
-
-
-class ProductCategory(BaseModel):
+class ProductCategory(MyBaseModel):
     title = models.CharField(max_length=250, unique=True, null=False, blank=False, verbose_name="title")
     description = models.TextField(null=False, blank=False, verbose_name="description")
     thumbnail = models.ImageField(upload_to="media/product/", null=True, blank=True, verbose_name="thumbnail")
@@ -29,7 +19,7 @@ class ProductCategory(BaseModel):
         return self.title
 
 
-class Product(BaseModel):
+class Product(MyBaseModel):
     title = models.CharField(max_length=250, null=False, blank=False, verbose_name="title")
     description = models.TextField(null=False, blank=False, verbose_name="description")
     category = models.ForeignKey(ProductCategory, related_name="products", on_delete=models.CASCADE,
@@ -70,7 +60,7 @@ class Product(BaseModel):
         return ProductMedia.objects.filter(product=self, media_type='audio')
 
 
-class ProductPrice(BaseModel):
+class ProductPrice(MyBaseModel):
     product = models.ForeignKey(Product, related_name="prices", on_delete=models.CASCADE, verbose_name="product")
     price = models.FloatField(null=False, blank=False, verbose_name="price")
 
@@ -83,7 +73,7 @@ class ProductPrice(BaseModel):
         return f'{self.product.title} - {self.price}'
 
 
-class ProductComment(BaseModel):
+class ProductComment(MyBaseModel):
     product = models.ForeignKey(Product, related_name="comments", on_delete=models.CASCADE, verbose_name="product")
     author = models.ForeignKey(User, null=False, blank=False, verbose_name="author", on_delete=models.CASCADE)
     content = models.TextField(null=False, blank=False, verbose_name="content")
@@ -97,7 +87,7 @@ class ProductComment(BaseModel):
         return self.author
 
 
-class ProductMedia(BaseModel):
+class ProductMedia(MyBaseModel):
     MEDIA_TYPES = [('image', 'image'), ('video', 'video'), ('audio', 'audio')]
     product = models.ForeignKey(Product, related_name='media', on_delete=models.CASCADE, verbose_name="product")
     media_type = models.CharField(max_length=20, choices=MEDIA_TYPES, null=False, blank=False,

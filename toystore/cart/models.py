@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Sum
 from django.contrib.auth import get_user_model
 from store.models import Product
+from blog.models import MyBaseModel
 
 User = get_user_model()
 
@@ -18,7 +19,7 @@ class CartBaseModel(models.Model):
         ordering = ['pk']
 
 
-class Cart(CartBaseModel):
+class Cart(MyBaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart', null=False, blank=False,
                              verbose_name='user')
     is_paid = models.BooleanField(default=False, verbose_name='Is paid')
@@ -38,7 +39,7 @@ class Cart(CartBaseModel):
         return CartProduct.objects.filter(cart=self.id)
 
 
-class CartProduct(CartBaseModel):
+class CartProduct(MyBaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='cart', null=False, blank=False,
                                 verbose_name='product')
     price = models.FloatField(default=0, blank=False, null=False)
@@ -46,7 +47,7 @@ class CartProduct(CartBaseModel):
                              verbose_name='cart')
 
     def __str__(self):
-        return self.product.title
+        return self.product
 
     class Meta:
         verbose_name = 'CartProduct'
