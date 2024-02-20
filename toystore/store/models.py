@@ -49,7 +49,7 @@ class Product(BaseModel):
 
 class ProductPrice(BaseModel):
     product = models.ForeignKey(Product, related_name="prices", on_delete=models.CASCADE, verbose_name="product")
-    price = models.DecimalField()
+    price = models.FloatField(null=False, blank=False, verbose_name="price")
 
     class Meta:
         verbose_name = "Price"
