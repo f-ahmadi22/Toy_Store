@@ -18,6 +18,7 @@ class BaseModel(models.Model):
 class ProductCategory(BaseModel):
     title = models.CharField(max_length=250, unique=True, null=False, blank=False, verbose_name="title")
     description = models.TextField(null=False, blank=False, verbose_name="description")
+    thumbnail = models.ImageField(upload_to="media/product/", null=True, blank=True, verbose_name="thumbnail")
 
     class Meta:
         verbose_name = "ProductCategory"
@@ -33,6 +34,7 @@ class Product(BaseModel):
     description = models.TextField(null=False, blank=False, verbose_name="description")
     category = models.ForeignKey(ProductCategory, related_name="posts", on_delete=models.CASCADE,
                                  verbose_name="category")
+    thumbnail = models.ImageField(upload_to="media/product/", null=True, blank=True, verbose_name="thumbnail")
 
     class Meta:
         verbose_name = "Product"
@@ -45,6 +47,27 @@ class Product(BaseModel):
     @property
     def price(self):
         return self.prices.filter(is_active=True).last()
+
+    @property
+    def get_images(self):
+        """
+        Get images related to the given product.
+        """
+        return ProductMedia.objects.filter(product=self, media_type='image')
+
+    @property
+    def get_videos(self):
+        """
+        Get videos related to the given product.
+        """
+        return ProductMedia.objects.filter(product=self, media_type='video')
+
+    @property
+    def get_audios(self):
+        """
+        Get videos related to the given product.
+        """
+        return ProductMedia.objects.filter(product=self, media_type='audio')
 
 
 class ProductPrice(BaseModel):
@@ -88,24 +111,3 @@ class ProductMedia(BaseModel):
 
     def __str__(self):
         return self.media_type
-
-    @property
-    def get_images(self):
-        """
-        Get images related to the given post.
-        """
-        return ProductMedia.objects.filter(product=self.product, media_type='image')
-
-    @property
-    def get_videos(self):
-        """
-        Get videos related to the given post.
-        """
-        return ProductMedia.objects.filter(product=self.product, media_type='video')
-
-    @property
-    def get_audios(self):
-        """
-        Get audios related to the given post.
-        """
-        return ProductMedia.objects.filter(product=self.product, media_type='audio')

@@ -19,6 +19,7 @@ class MyBaseModel(models.Model):
 class BlogCategory(MyBaseModel):
     title = models.CharField(max_length=250, unique=True, null=False, blank=False, verbose_name="title")
     description = models.TextField(null=False, blank=False, verbose_name="description")
+    thumbnail = models.ImageField(upload_to="media/blog/", null=True, blank=True, verbose_name="thumbnail")
 
     class Meta:
         verbose_name = "BlogCategory"
@@ -33,6 +34,7 @@ class Post(MyBaseModel):
     title = models.CharField(max_length=250, null=False, blank=False, verbose_name="title")
     description = models.TextField(null=False, blank=False, verbose_name="description")
     category = models.ForeignKey(BlogCategory, related_name="posts", on_delete=models.CASCADE, verbose_name="category")
+    thumbnail = models.ImageField(upload_to="media/blog/", null=True, blank=True, verbose_name="thumbnail")
 
     class Meta:
         verbose_name = "Post"
@@ -41,6 +43,27 @@ class Post(MyBaseModel):
 
     def __str__(self):
         return self.title
+
+    @property
+    def get_images(self):
+        """
+        Get images related to the given post.
+        """
+        return BlogMedia.objects.filter(post=self, media_type='image')
+
+    @property
+    def get_videos(self):
+        """
+        Get videos related to the given post.
+        """
+        return BlogMedia.objects.filter(post=self, media_type='video')
+
+    @property
+    def get_audios(self):
+        """
+        Get videos related to the given post.
+        """
+        return BlogMedia.objects.filter(post=self, media_type='audio')
 
 
 class BlogComment(MyBaseModel):
@@ -71,24 +94,3 @@ class BlogMedia(MyBaseModel):
 
     def __str__(self):
         return self.media_type
-
-    @property
-    def get_images(self):
-        """
-        Get images related to the given post.
-        """
-        return BlogMedia.objects.filter(post=self.post, media_type='image')
-
-    @property
-    def get_videos(self):
-        """
-        Get videos related to the given post.
-        """
-        return BlogMedia.objects.filter(post=self.post, media_type='video')
-
-    @property
-    def get_audios(self):
-        """
-        Get videos related to the given post.
-        """
-        return BlogMedia.objects.filter(post=self.post, media_type='audio')

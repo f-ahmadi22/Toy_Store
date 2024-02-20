@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'store.apps.StoreConfig',
     'cart.apps.CartConfig',
+    'authentication.apps.AuthenticationConfig',
 
     # Third-party apps
 ]

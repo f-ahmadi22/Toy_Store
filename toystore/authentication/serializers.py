@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth import authenticate
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, get_user_model
 
 User = get_user_model()
 
@@ -31,3 +30,14 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Must include 'username' and 'password'.")
 
         return data
+
+
+class SignupSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['username', 'password']
+
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user
