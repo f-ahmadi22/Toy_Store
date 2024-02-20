@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'store.apps.StoreConfig',
     'cart.apps.CartConfig',
     'authentication.apps.AuthenticationConfig',
+    'financial.apps.FinancialConfig',
 
     # Third-party apps
 ]
