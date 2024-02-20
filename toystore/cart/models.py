@@ -9,16 +9,6 @@ User = get_user_model()
 # Create your models here.
 
 
-class CartBaseModel(models.Model):
-    is_active = models.BooleanField(default=False, verbose_name='Is active')
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Updated at')
-
-    class Meta:
-        abstract = True
-        ordering = ['pk']
-
-
 class Cart(MyBaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart', null=False, blank=False,
                              verbose_name='user')
