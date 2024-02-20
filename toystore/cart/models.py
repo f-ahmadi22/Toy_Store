@@ -14,7 +14,7 @@ class Cart(MyBaseModel):
                              verbose_name='user')
 
     def __str__(self):
-        return self.user
+        return f'{self.user} cart created'
 
     class Meta:
         verbose_name = 'Cart'
@@ -22,7 +22,8 @@ class Cart(MyBaseModel):
         ordering = ['id']
 
     def get_total_price(self):
-        return CartProduct.objects.filter(cart=self.id).aggregate(price=Sum('price'))['price__sum']
+        print(CartProduct.objects.filter(cart=self.id).aggregate(Sum('price')))
+        return CartProduct.objects.filter(cart=self.id).aggregate(Sum('price'))
 
     def get_products(self):
         return CartProduct.objects.filter(cart=self.id)
@@ -36,7 +37,7 @@ class CartProduct(MyBaseModel):
                              verbose_name='cart')
 
     def __str__(self):
-        return self.product
+        return self.price
 
     class Meta:
         verbose_name = 'CartProduct'

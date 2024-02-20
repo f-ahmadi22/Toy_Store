@@ -34,25 +34,21 @@ class Product(MyBaseModel):
     def __str__(self):
         return self.title
 
-    @property
     def price(self):
         return self.prices.filter(is_active=True).last()
 
-    @property
     def get_images(self):
         """
         Get images related to the given product.
         """
         return ProductMedia.objects.filter(product=self, media_type='image')
 
-    @property
     def get_videos(self):
         """
         Get videos related to the given product.
         """
         return ProductMedia.objects.filter(product=self, media_type='video')
 
-    @property
     def get_audios(self):
         """
         Get videos related to the given product.
@@ -84,7 +80,7 @@ class ProductComment(MyBaseModel):
         ordering = ['id']
 
     def __str__(self):
-        return self.author
+        return self.product.title
 
 
 class ProductMedia(MyBaseModel):

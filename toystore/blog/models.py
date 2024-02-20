@@ -44,21 +44,18 @@ class Post(MyBaseModel):
     def __str__(self):
         return self.title
 
-    @property
     def get_images(self):
         """
         Get images related to the given post.
         """
         return BlogMedia.objects.filter(post=self, media_type='image')
 
-    @property
     def get_videos(self):
         """
         Get videos related to the given post.
         """
         return BlogMedia.objects.filter(post=self, media_type='video')
 
-    @property
     def get_audios(self):
         """
         Get videos related to the given post.
@@ -77,7 +74,7 @@ class BlogComment(MyBaseModel):
         ordering = ['id']
 
     def __str__(self):
-        return self.author
+        return self.post.title
 
 
 class BlogMedia(MyBaseModel):

@@ -10,22 +10,28 @@ from .serializers import PaymentSerializer
 # Create your views here.
 
 
-class PaymentViewSet(viewsets.ModelViewSet):
-    queryset = Payment.objects.filter(is_paid=True).order_by('-pk')
+class PaymentAPIView(APIView):
     serializer_class = PaymentSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        queryset = Payment.objects.filter(is_paid=True,user=request.user).order_by('-pk')
+        serializer = PaymentSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class PayAPIView(APIView):
     permission_classes = [IsAuthenticated]
-    authentication_classes = [authentication.TokenAuthentication]
 
     def post(self, request, pk):
         cart = Cart.objects.get(pk=pk)
-        cart.is_active = False
+        if cart.is_active:
+            return Response(f'{request.user} paid this before')
+        else:
 
-        payment = Payment.objects.create(cart=cart, user=request.user, is_paid=True)
-        payment.save()
+            cart.is_active = False
 
-        return Response(f'{request.user} paid {cart.get_total_price()}, is_paid = True')
+            payment = Payment.objects.create(cart=cart, user=request.user, is_paid=True)
+            payment.save()
+            return Response(f'{request.user} paid {cart.get_total_price()}, is_paid = True')

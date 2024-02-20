@@ -9,12 +9,11 @@ from store.models import Product
 
 class CartProductAPIView(APIView):
 
-    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request, product_id):
+    def post(self, request, pk):
         # Get the product instance
-        product = get_object_or_404(Product, id=product_id)
+        product = get_object_or_404(Product, id=pk)
 
         # Get the user (assuming it's authenticated)
         user = request.user
@@ -27,6 +26,7 @@ class CartProductAPIView(APIView):
             cart = Cart.objects.create(user=user, is_active=True)
 
         # If product doesn't exist in the cart, create a new CartProduct
-        new_cart_product = CartProduct.objects.create(product=product, price=product.price(), cart=cart)
+        new_cart_product = CartProduct.objects.create(product=product, price=product.price().price, cart=cart,
+                                                      is_active=True)
         serializer = CartProductSerializer(new_cart_product)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -20,7 +20,7 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'description', 'category', 'price', 'thumbnail', 'images', 'videos', 'audios')
 
     def get_price(self, obj):
-        return obj.price
+        return obj.price().price
 
     def get_images(self, obj):
         """

@@ -26,8 +26,7 @@ class PostSerializer(serializers.ModelSerializer):
         Get serialized images related to the given post.
         """
         images = obj.get_images()
-        images_list = MediaSerializer(images, many=True).data
-        return [image.media_file.url for image in images_list]
+        return [image.media_file.url for image in images]
 
     def get_videos(self, obj):
         """
