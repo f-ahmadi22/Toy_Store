@@ -31,8 +31,8 @@ class ProductCategory(BaseModel):
 class Product(BaseModel):
     title = models.CharField(max_length=250, null=False, blank=False, verbose_name="title")
     description = models.TextField(null=False, blank=False, verbose_name="description")
-    price = models.IntegerField(null=False, blank=False)
-    category = models.ForeignKey(ProductCategory, related_name="posts", on_delete=models.CASCADE, verbose_name="category")
+    category = models.ForeignKey(ProductCategory, related_name="posts", on_delete=models.CASCADE,
+                                 verbose_name="category")
 
     class Meta:
         verbose_name = "Product"
@@ -42,7 +42,22 @@ class Product(BaseModel):
     def __str__(self):
         return self.title
 
-# TODO : Implement Product price,  last price
+    @property
+    def price(self):
+        return self.prices.filter(is_active=True).last()
+
+
+class ProductPrice(BaseModel):
+    product = models.ForeignKey(Product, related_name="prices", on_delete=models.CASCADE, verbose_name="product")
+    price = models.DecimalField()
+
+    class Meta:
+        verbose_name = "Price"
+        verbose_name_plural = "Prices"
+        ordering = ['id']
+
+    def __str__(self):
+        return f'{self.product.title} - {self.price}'
 
 
 class ProductComment(BaseModel):
@@ -74,23 +89,23 @@ class ProductMedia(BaseModel):
     def __str__(self):
         return self.media_type
 
-    @staticmethod
-    def get_images(product):
+    @property
+    def get_images(self):
         """
         Get images related to the given post.
         """
-        return ProductMedia.objects.filter(product=product, media_type='image')
+        return ProductMedia.objects.filter(product=self.product, media_type='image')
 
-    @staticmethod
-    def get_videos(product):
+    @property
+    def get_videos(self):
         """
         Get videos related to the given post.
         """
-        return ProductMedia.objects.filter(product=product, media_type='video')
+        return ProductMedia.objects.filter(product=self.product, media_type='video')
 
-    @staticmethod
-    def get_audios(product):
+    @property
+    def get_audios(self):
         """
         Get audios related to the given post.
         """
-        return ProductMedia.objects.filter(product=product, media_type='audio')
+        return ProductMedia.objects.filter(product=self.product, media_type='audio')
