@@ -26,10 +26,11 @@ class PayAPIView(APIView):  # Pay cart that it's id is passed in request query p
 
     def post(self, request, pk):
         cart = Cart.objects.get(pk=pk)  # get cart by pk
+        user = request.user
         if cart.is_active:
-            return Response(f'{request.user} paid this before')
+            return Response(f'{user} paid this before')
         else:
-            cart.is_active = False
-            payment = Payment.objects.create(cart=cart, user=request.user, is_paid=True)
+            cart.is_active = True
+            payment = Payment.objects.create(cart=cart, user=user, is_paid=True)
             payment.save()
-            return Response(f'{request.user} paid {cart.get_total_price()}, is_paid = True')
+            return Response(f'{user} paid {cart.get_total_price()}, is_paid = True')
