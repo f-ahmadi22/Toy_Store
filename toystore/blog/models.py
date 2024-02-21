@@ -45,21 +45,15 @@ class Post(MyBaseModel):
         return self.title
 
     def get_images(self):
-        """
-        Get images related to the given post.
-        """
+        # Get images related to the given post
         return BlogMedia.objects.filter(post=self, media_type='image')
 
     def get_videos(self):
-        """
-        Get videos related to the given post.
-        """
+        # Get videos related to the given post
         return BlogMedia.objects.filter(post=self, media_type='video')
 
     def get_audios(self):
-        """
-        Get videos related to the given post.
-        """
+        # Get videos related to the given post
         return BlogMedia.objects.filter(post=self, media_type='audio')
 
 
@@ -78,7 +72,7 @@ class BlogComment(MyBaseModel):
 
 
 class BlogMedia(MyBaseModel):
-    MEDIA_TYPES = [('image', 'image'), ('video', 'video'), ('audio', 'audio')]
+    MEDIA_TYPES = [('image', 'image'), ('video', 'video'), ('audio', 'audio')]  # Media type choices
     post = models.ForeignKey(Post, related_name='media', on_delete=models.CASCADE, verbose_name="post")
     media_type = models.CharField(max_length=20, choices=MEDIA_TYPES, null=False, blank=False,
                                   verbose_name="media_type")

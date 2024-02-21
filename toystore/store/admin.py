@@ -4,8 +4,19 @@ from .models import ProductCategory, Product, ProductComment, ProductMedia, Prod
 # Register your models here.
 
 
+class ProductInline(admin.StackedInline):
+    model = Product
+    extra = 1
+
+
+class PriceInline(admin.StackedInline):
+    model = ProductPrice
+    extra = 1
+
+
 @register(ProductCategory)
 class ProductCategoryAdmin(admin.ModelAdmin):
+    inlines = [ProductInline]
     list_display = ('id', 'title', 'description', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'title', 'description')
     list_filter = ('is_active',)
@@ -15,6 +26,7 @@ class ProductCategoryAdmin(admin.ModelAdmin):
 
 @register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    inlines = [PriceInline]
     list_display = ('id', 'title', 'description', 'category', 'price', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'title', 'description', 'category', 'price')
     list_filter = ('category',)

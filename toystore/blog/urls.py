@@ -1,13 +1,15 @@
 from django.urls import path, include
 from rest_framework import routers
 from .views import PostViewSet, CategoryViewSet, CommentViewSet
-
+# Category router
 category_router = routers.DefaultRouter()
 category_router.register('', CategoryViewSet,)
 
+# Post router
 post_router = routers.DefaultRouter()
 post_router.register('', PostViewSet,)
 
+# Comment router
 comment_router = routers.DefaultRouter()
 comment_router.register('', CommentViewSet,)
 

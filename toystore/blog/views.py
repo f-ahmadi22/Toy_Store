@@ -6,13 +6,13 @@ from .serializers import CategorySerializer, PostSerializer, CommentSerializer, 
 # Create your views here.
 
 
-class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):  # get all and detailed category list
     serializer_class = CategorySerializer
     queryset = BlogCategory.objects.filter(is_active=True).order_by('-pk')
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
 
 
-class PostViewSet(viewsets.ReadOnlyModelViewSet):
+class PostViewSet(viewsets.ReadOnlyModelViewSet):  # get all and detailed post list
     serializer_class = PostSerializer
     queryset = Post.objects.filter(is_active=True).order_by('-pk')
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
@@ -20,8 +20,9 @@ class PostViewSet(viewsets.ReadOnlyModelViewSet):
     search_fields = ('title', 'description')
 
 
-class CommentViewSet(viewsets.ModelViewSet):
+class CommentViewSet(viewsets.ModelViewSet):   # get all and detailed comment list and submit comment
     serializer_class = CommentSerializer
+    # IsAuthenticated for submit comment and readonly for get comment list
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = BlogComment.objects.filter(is_active=True).order_by('-pk')
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
