@@ -10,7 +10,7 @@ from .serializers import PaymentSerializer
 # Create your views here.
 
 
-class PaymentAPIView(APIView):
+class PaymentAPIView(APIView):  # Get all payments
     serializer_class = PaymentSerializer
     permission_classes = [IsAuthenticated]
 
@@ -21,17 +21,15 @@ class PaymentAPIView(APIView):
         return Response(serializer.data)
 
 
-class PayAPIView(APIView):
+class PayAPIView(APIView):  # Pay cart that it's id is passed in request query params
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
-        cart = Cart.objects.get(pk=pk)
+        cart = Cart.objects.get(pk=pk)  # get cart by pk
         if cart.is_active:
             return Response(f'{request.user} paid this before')
         else:
-
             cart.is_active = False
-
             payment = Payment.objects.create(cart=cart, user=request.user, is_paid=True)
             payment.save()
             return Response(f'{request.user} paid {cart.get_total_price()}, is_paid = True')

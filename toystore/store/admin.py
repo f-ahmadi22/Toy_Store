@@ -4,18 +4,18 @@ from .models import ProductCategory, Product, ProductComment, ProductMedia, Prod
 # Register your models here.
 
 
-class ProductInline(admin.StackedInline):
+class ProductInline(admin.StackedInline):  # Product inline for  category model
     model = Product
     extra = 1
 
 
-class PriceInline(admin.StackedInline):
+class PriceInline(admin.StackedInline):  # Price inline for product model
     model = ProductPrice
     extra = 1
 
 
 @register(ProductCategory)
-class ProductCategoryAdmin(admin.ModelAdmin):
+class ProductCategoryAdmin(admin.ModelAdmin):  # Category admin panel customization
     inlines = [ProductInline]
     list_display = ('id', 'title', 'description', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'title', 'description')
@@ -25,7 +25,7 @@ class ProductCategoryAdmin(admin.ModelAdmin):
 
 
 @register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(admin.ModelAdmin):  # Product admin panel customization
     inlines = [PriceInline]
     list_display = ('id', 'title', 'description', 'category', 'price', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'title', 'description', 'category', 'price')
@@ -35,7 +35,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 @register(ProductPrice)
-class ProductPrice(admin.ModelAdmin):
+class ProductPrice(admin.ModelAdmin):  # Price admin panel customization
     list_display = ('id', 'product', 'price', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'product', 'price')
     list_filter = ('product', 'product__category', 'is_active')
@@ -44,7 +44,7 @@ class ProductPrice(admin.ModelAdmin):
 
 
 @register(ProductComment)
-class ProductCommentAdmin(admin.ModelAdmin):
+class ProductCommentAdmin(admin.ModelAdmin):  # Cemment admin panel customization
     list_display = ('id', 'product', 'author', 'content', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'product', 'author', 'content',)
     list_filter = ('product', 'product__category', 'author', 'is_active')
@@ -53,7 +53,7 @@ class ProductCommentAdmin(admin.ModelAdmin):
 
 
 @register(ProductMedia)
-class ProductMediaAdmin(admin.ModelAdmin):
+class ProductMediaAdmin(admin.ModelAdmin):  # Media admin panel customization
     list_display = ('id', 'product', 'media_type', 'media_file', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'product', 'media_type')
     list_filter = ('media_type', 'is_active',)

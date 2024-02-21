@@ -7,7 +7,7 @@ from .serializers import CartProductSerializer
 from store.models import Product
 
 
-class CartProductAPIView(APIView):
+class CartProductAPIView(APIView):  # Get product id and add it to the cart
 
     permission_classes = [permissions.IsAuthenticated]
 

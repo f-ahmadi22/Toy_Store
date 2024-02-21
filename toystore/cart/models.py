@@ -21,11 +21,10 @@ class Cart(MyBaseModel):
         verbose_name_plural = 'Carts'
         ordering = ['id']
 
-    def get_total_price(self):
-        print(CartProduct.objects.filter(cart=self.id).aggregate(Sum('price')))
+    def get_total_price(self):  # return sum of prices of all products in the cart
         return CartProduct.objects.filter(cart=self.id).aggregate(Sum('price'))
 
-    def get_products(self):
+    def get_products(self):  # return all products in the cart
         return CartProduct.objects.filter(cart=self.id)
 
 

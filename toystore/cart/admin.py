@@ -5,7 +5,7 @@ from .models import Cart, CartProduct
 
 
 @register(Cart)
-class CartAdmin(admin.ModelAdmin):
+class CartAdmin(admin.ModelAdmin):  # Cart admin panel customization
     list_display = ('id', 'user', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'user',)
     list_filter = ('user', 'is_active')
@@ -14,7 +14,7 @@ class CartAdmin(admin.ModelAdmin):
 
 
 @register(CartProduct)
-class CartProductAdmin(admin.ModelAdmin):
+class CartProductAdmin(admin.ModelAdmin):  # Cart product admin panel customization
     list_display = ('id', 'product', 'price', 'cart', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'product', 'price', 'cart')
     list_filter = ('product', 'cart', 'is_active')

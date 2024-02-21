@@ -8,7 +8,7 @@ User = get_user_model()
 
 class Payment(MyBaseModel):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='payments', null=False, blank=False,
-                             verbose_name='cart')
+                             verbose_name='cart')  # The cart that is being paid
     is_paid = models.BooleanField(default=False, verbose_name='is paid')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='payments', null=False, blank=False,
                              verbose_name='user')

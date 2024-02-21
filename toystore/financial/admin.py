@@ -5,7 +5,7 @@ from .models import Payment
 
 
 @register(Payment)
-class PaymentAdmin(admin.ModelAdmin):
+class PaymentAdmin(admin.ModelAdmin):  # Payment admin panel customization
     list_display = ('id', 'cart', 'is_paid', 'is_active', 'created_at', 'updated_at')
     list_display_links = ('id', 'cart', 'is_paid')
     list_filter = ('cart', 'is_paid', 'is_active')

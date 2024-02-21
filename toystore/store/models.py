@@ -34,25 +34,19 @@ class Product(MyBaseModel):
     def __str__(self):
         return self.title
 
-    def price(self):
+    def price(self):  # Get last price of the given product
         return self.prices.filter(is_active=True).last()
 
     def get_images(self):
-        """
-        Get images related to the given product.
-        """
+        # Get images related to the given product
         return ProductMedia.objects.filter(product=self, media_type='image')
 
     def get_videos(self):
-        """
-        Get videos related to the given product.
-        """
+        # Get videos related to the given product
         return ProductMedia.objects.filter(product=self, media_type='video')
 
     def get_audios(self):
-        """
-        Get videos related to the given product.
-        """
+        # Get videos related to the given product
         return ProductMedia.objects.filter(product=self, media_type='audio')
 
 

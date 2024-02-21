@@ -7,13 +7,13 @@ from .serializers import CategorySerializer, ProductSerializer, CommentSerialize
 # Create your views here.
 
 
-class ProductCategoryViewSet(viewsets.ReadOnlyModelViewSet):
+class ProductCategoryViewSet(viewsets.ReadOnlyModelViewSet):  # Get all and detailed category list
     serializer_class = CategorySerializer
     queryset = ProductCategory.objects.filter(is_active=True).order_by('-pk')
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
 
 
-class ProductViewSet(viewsets.ReadOnlyModelViewSet):
+class ProductViewSet(viewsets.ReadOnlyModelViewSet):  # Get all and detailed product list
     serializer_class = ProductSerializer
     queryset = Product.objects.filter(is_active=True).order_by('-pk')
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
@@ -21,7 +21,7 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     search_fields = ('title', 'description')
 
 
-class CommentViewSet(viewsets.ModelViewSet):
+class CommentViewSet(viewsets.ModelViewSet):  # Get all and detailed comment list and submit comment
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = ProductComment.objects.filter(is_active=True).order_by('-pk')
