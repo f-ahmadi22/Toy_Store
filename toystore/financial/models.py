@@ -14,7 +14,7 @@ class Payment(MyBaseModel):
                              verbose_name='user')
 
     def __str__(self):
-        return self.cart
+        return str(self.is_paid)
 
     class Meta:
         verbose_name = 'Payment'

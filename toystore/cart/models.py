@@ -36,7 +36,7 @@ class CartProduct(MyBaseModel):
                              verbose_name='cart')
 
     def __str__(self):
-        return self.price
+        return str(self.price)
 
     class Meta:
         verbose_name = 'CartProduct'
