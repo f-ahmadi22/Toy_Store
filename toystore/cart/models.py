@@ -14,7 +14,7 @@ class Cart(MyBaseModel):
                              verbose_name='user')
 
     def __str__(self):
-        return f'{self.user} cart created'
+        return f'{self.user} created cart'
 
     class Meta:
         verbose_name = 'Cart'

@@ -19,11 +19,11 @@ class CartProductAPIView(APIView):  # Get product id and add it to the cart
         user = request.user
 
         # Check if the user has an active cart
-        cart = Cart.objects.filter(user=user, is_active=False).first()
+        cart = Cart.objects.filter(user=user, is_active=True).first()
 
         # If user doesn't have an active cart, create a new one
         if not cart:
-            cart = Cart.objects.create(user=user, is_active=False)
+            cart = Cart.objects.create(user=user, is_active=True)
 
         # If product doesn't exist in the cart, create a new CartProduct
         new_cart_product = CartProduct.objects.create(product=product, price=product.price().price, cart=cart,
