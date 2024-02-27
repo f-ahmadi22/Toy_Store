@@ -14,10 +14,11 @@ class ProductSerializer(serializers.ModelSerializer):
     videos = serializers.SerializerMethodField()
     audios = serializers.SerializerMethodField()
     price = serializers.SerializerMethodField()
+    media = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
-        fields = ('id', 'title', 'description', 'category', 'price', 'thumbnail', 'images', 'videos', 'audios')
+        fields = ('id', 'title', 'description', 'category', 'price', 'thumbnail', 'images', 'videos', 'audios', 'media')
 
     def get_price(self, obj):  # get last price of product
         return obj.price().price
@@ -36,6 +37,11 @@ class ProductSerializer(serializers.ModelSerializer):
         # Get serialized audios related to the given product
         audios = obj.get_audios()
         return [audio.media_file.url for audio in audios]
+
+    def get_media(self, obj):
+        # Get serialized media related to the given product
+        media = obj.get_media()
+        return [media.media_file.url for media in media]
 
 
 class CommentSerializer(serializers.ModelSerializer):

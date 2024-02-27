@@ -56,6 +56,10 @@ class Post(MyBaseModel):
         # Get videos related to the given post
         return BlogMedia.objects.filter(post=self, media_type='audio')
 
+    def get_media(self):
+        # Get all media related to the given post
+        return BlogMedia.objects.filter(post=self)
+
 
 class BlogComment(MyBaseModel):
     post = models.ForeignKey(Post, related_name="comments", on_delete=models.CASCADE, verbose_name="post")

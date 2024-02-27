@@ -49,6 +49,10 @@ class Product(MyBaseModel):
         # Get videos related to the given product
         return ProductMedia.objects.filter(product=self, media_type='audio')
 
+    def get_media(self):
+        # Get all media related to the given post
+        return ProductMedia.objects.filter(product=self)
+
 
 class ProductPrice(MyBaseModel):
     product = models.ForeignKey(Product, related_name="prices", on_delete=models.CASCADE, verbose_name="product")

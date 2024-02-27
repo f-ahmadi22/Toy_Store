@@ -16,10 +16,11 @@ class PostSerializer(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
     videos = serializers.SerializerMethodField()
     audios = serializers.SerializerMethodField()
+    media = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['id', 'title', 'description', 'category', 'thumbnail', 'images', 'videos', 'audios']
+        fields = ['id', 'title', 'description', 'category', 'thumbnail', 'images', 'videos', 'audios', 'media']
 
     def get_images(self, obj):
         # Get serialized images related to the given post
@@ -35,6 +36,11 @@ class PostSerializer(serializers.ModelSerializer):
         # Get serialized audios related to the given post
         audios = obj.get_audios()
         return [audio.media_file.url for audio in audios]
+
+    def get_media(self, obj):
+        # Get serialized media related to the given post
+        media = obj.get_media()
+        return [media.media_file.url for media in media]
 
 
 class CommentSerializer(serializers.ModelSerializer):
