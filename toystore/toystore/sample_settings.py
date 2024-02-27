@@ -1,3 +1,4 @@
+# Database settings
 DATABASE = {
     'name': '',
     'user': '',
@@ -12,3 +13,6 @@ SECRET_KEY = ''
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# Custom Admin path
+ADMIN_PATH = 'your-custom-admin-path/'
