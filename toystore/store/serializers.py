@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from authentication.serializers import UserSerializer
 from .models import ProductCategory, Product, ProductComment, ProductMedia
 
 
@@ -45,6 +46,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    author = UserSerializer(read_only=True)
     class Meta:
         model = ProductComment
         fields = ['id', 'author', 'product', 'content', 'created_at', 'updated_at']

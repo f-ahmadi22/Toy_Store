@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from authentication.serializers import UserSerializer
 from .models import BlogCategory, Post, BlogComment, BlogMedia
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
@@ -13,6 +14,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
     images = serializers.SerializerMethodField()
     videos = serializers.SerializerMethodField()
     audios = serializers.SerializerMethodField()
@@ -44,6 +46,8 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    author = UserSerializer(read_only=True)
+
     class Meta:
         model = BlogComment
         fields = ['id', 'author', 'post', 'content', 'created_at', 'updated_at']
