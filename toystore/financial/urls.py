@@ -5,5 +5,5 @@ from .views import PayAPIView, PaymentAPIView
 
 urlpatterns = [
     path('payments/', PaymentAPIView.as_view(), name='payments'),
-    path('pay/<int:pk>/', PayAPIView.as_view(), name='pay cart'),
+    path('pay/', PayAPIView.as_view(), name='pay cart'),
 ]

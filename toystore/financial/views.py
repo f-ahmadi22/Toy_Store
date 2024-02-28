@@ -24,8 +24,8 @@ class PaymentAPIView(APIView):  # Get all payments
 class PayAPIView(APIView):  # Pay cart that it's id is passed in request query params
     permission_classes = [IsAuthenticated]
 
-    def post(self, request, pk):
-        cart = Cart.objects.get(pk=pk)  # get cart by pk
+    def post(self, request):
+        cart = Cart.objects.get(pk=request.data['cart'])  # get cart by pk
         user = request.user
         if user != cart.user:
             return Response(f'This is not your cart, you do not have permission to perform this action')
@@ -34,6 +34,7 @@ class PayAPIView(APIView):  # Pay cart that it's id is passed in request query p
             cart.save()
             payment = Payment.objects.create(cart=cart, user=user, is_paid=True,is_active=True)
             payment.save()
-            return Response(f'{user} paid {cart.get_total_price()}, is_paid = True')
+            serializer = PaymentSerializer(payment)
+            return Response(serializer.data)
         else:
             return Response(f'{user} paid this before')

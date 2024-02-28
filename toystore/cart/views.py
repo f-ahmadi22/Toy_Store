@@ -11,9 +11,9 @@ class CartProductAPIView(APIView):  # Get product id and add it to the cart
 
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request, pk):
+    def post(self, request):
         # Get the product instance
-        product = get_object_or_404(Product, id=pk)
+        product = get_object_or_404(Product, id=request.data['product'])
 
         # Get the user (assuming it's authenticated)
         user = request.user
