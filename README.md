@@ -32,7 +32,7 @@ pip install -r requirements.txt
     Enable users to add items to their shopping cart.
 
     Endpoints :
-        Add a product to user's cart : 'cart/<product_id>/'
+        Add a product to user's cart : 'cart/'  pass product id in body
         ** It needs token authentication, so user needs to login
 
 
@@ -41,7 +41,7 @@ pip install -r requirements.txt
 
     Endpoints :
         Get all or detailed payments :  'financial/payments/'
-        pay a user's cart : 'financial/pay/<cart_id>/'
+        pay a user's cart : 'financial/pay/'  pass cart id in body
         ** It needs token authentication, so user needs to login
 
 
